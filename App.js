@@ -40,7 +40,7 @@ const RootStack = createBottomTabNavigator(
 export default class App extends React.Component {
 
   componentDidMount() {
-    database.transaction(tx => {
+    db.transaction(tx => {
       tx.executeSql(
 
       /*
