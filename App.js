@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import ScannerScreen from './screens/ScannerScreen'
 import DetailedHistoryScreen from './screens/DetailedHistoryScreen'
 import HomeScreen from './screens/HomeScreen'
+import AddEntryScreen from './screens/AddEntryScreen'
 import db from './components/db'
 
 const RootStack = createBottomTabNavigator(
@@ -11,6 +12,7 @@ const RootStack = createBottomTabNavigator(
     Home: HomeScreen,
     Scanner: ScannerScreen,
     Detailed: DetailedHistoryScreen,
+    AddEntry: AddEntryScreen
   },
   {
     initialRouteName: 'Home',

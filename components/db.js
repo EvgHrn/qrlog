@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 export class db extends Component {
 
     constructor(props) {
+        super(props);
         this.db = SQLite.openDatabase('db.db');
     }
 

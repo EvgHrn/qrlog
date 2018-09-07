@@ -25,6 +25,10 @@ export default class DetailedHistoryScreen extends React.Component {
           </Text>
           <DetailedList/>
           <Button
+            title="ADD"
+            onPress={() => this.props.navigation.navigate('AddEntry')}
+            />
+          <Button
             title='HOME'
             onPress={() => this.props.navigation.navigate('Home')}/>
         </View>
