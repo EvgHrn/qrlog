@@ -1,16 +1,28 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 
 export default class AddEntryScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      equipTitle: '', 
+      equipId: '', 
+      dateTime: '',
+      entry: ''
+    };
+  }
+
     static navigationOptions = {
       title: 'ADD ENTRY'
     }
     render() {
       return(
         <View style={styles.container}>
-          <Text>
-            Screen for adding new entry
-          </Text>
+            <FormLabel>Name</FormLabel>
+            <FormInput/>
+            <FormValidationMessage>Error message</FormValidationMessage>
         </View>
       );
     }
