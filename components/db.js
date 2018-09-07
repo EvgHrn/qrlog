@@ -20,9 +20,21 @@ export class db extends Component {
 
                 */
 
-                'create table if not exists items (id integer primary key not null, equipTitle text, equipId text, dateTime text, entry text);'
+                'create table if not exists entries (id integer primary key not null, equipTitle text, equipId text, dateTime text, entry text);'
             );
         });
+    }
+
+    addEntry(equipTitle, equipId, dateTime, entry) {
+
+        this.db.transaction(tx => {
+                tx.executeSql('insert into entries (equipTitle, equipId, dateTime, entry) values (?, ?, ?, ?)', [equipTitle, equipId, dateTime, entry]);
+                tx.executeSql('select * from items', [], (_, { rows }) =>
+                console.log(JSON.stringify(rows)));
+            },
+            null,
+            this.update
+        );
     }
 
     render() {

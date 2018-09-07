@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-
-import React, { Component } from 'react'
 
 class DetailedList extends Component {
   render() {
