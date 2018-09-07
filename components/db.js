@@ -29,7 +29,7 @@ export class db extends Component {
 
         this.db.transaction(tx => {
                 tx.executeSql('insert into entries (equipTitle, equipId, dateTime, entry) values (?, ?, ?, ?)', [equipTitle, equipId, dateTime, entry]);
-                tx.executeSql('select * from items', [], (_, { rows }) =>
+                tx.executeSql('select * from entries', [], (_, { rows }) =>
                 console.log(JSON.stringify(rows)));
             },
             null,
