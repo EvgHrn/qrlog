@@ -16,11 +16,11 @@ export class db extends Component {
                 equipTitle
                 equipId
                 dateTime
-                action
+                entry
 
                 */
 
-                'create table if not exists items (id integer primary key not null, equipTitle text, equipId text, dateTime text, action text);'
+                'create table if not exists items (id integer primary key not null, equipTitle text, equipId text, dateTime text, entry text);'
             );
         });
     }
