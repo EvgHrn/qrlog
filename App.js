@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import ScannerScreen from './screens/ScannerScreen'
 import DetailedHistoryScreen from './screens/DetailedHistoryScreen'
 import HomeScreen from './screens/HomeScreen'
+import db from './components/db'
 
 const RootStack = createBottomTabNavigator(
   {
@@ -33,6 +34,11 @@ const RootStack = createBottomTabNavigator(
 );
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    db.createTable();
+  }
+
   render() {
     return <RootStack />;
   }

@@ -1,6 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
+import React, { Component } from 'react'
+
+class DetailedList extends Component {
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <Text>
+          Detailed list
+        </Text>
+      </View>
+    )
+  }
+}
+
 export default class DetailedHistoryScreen extends React.Component {
     static navigationOptions = {
       title: 'DETAILED'
@@ -11,6 +25,7 @@ export default class DetailedHistoryScreen extends React.Component {
           <Text>
             {this.props.navigation.getParam('code')}
           </Text>
+          <DetailedList/>
           <Button
             title='HOME'
             onPress={() => this.props.navigation.navigate('Home')}/>
