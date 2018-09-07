@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Permissions } from 'expo';
-import { RNCamera } from 'react-native-camera';
+import { Camera, Permissions } from 'expo';
 
 export default class ScannerScreen extends React.Component {
 
@@ -40,7 +39,7 @@ export default class ScannerScreen extends React.Component {
   }
 
   _handleBarCodeRead = ({ type, data }) => {
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     this.props.navigation.navigate('Detailed', {
       code: data,
     });
