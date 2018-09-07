@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { SQLite } from 'expo';
 
 export class db extends Component {
 
