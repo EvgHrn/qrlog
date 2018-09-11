@@ -5,24 +5,26 @@ const db = SQLite.openDatabase('db.db');
 export const createTablesIfNotExist = () => {
     db.transaction(tx => {
         tx.executeSql(
-
-            /*
-
-            id
-            equipTitle
-            equipId
-            dateTime
-            entry
-
-            */
-           'create table if not exists equipment (id integer primary key not null, equipTitle text, equipId text unique);'    
-            
+           'create table if not exists equipment ( \
+                id integer primary key not null, \
+                equipTitle text, \
+                equipId text unique \
+            );'
         );
     });
     db.transaction(tx => {
         tx.executeSql(
             
-            'create table if not exists entries (id integer primary key not null, equipTitle text, equipId text, dateTime text, entry text);'
+            'PRAGMA foreign_keys=on; \
+            create table if not exists entries ( \
+                id integer primary key not null, \
+                equipTitle text, \
+                equipId text, \
+                dateTime text, \
+                entry text  \
+                FOREIGN KEY (equipTitle) REFERENCES equipment(equipTitle) \
+                FOREIGN KEY (equipId) REFERENCES equipment(equipId) \
+            );'
         );
     });
 }
