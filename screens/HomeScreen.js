@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import lastEntriesList from '../components/lastEntriesList'
+import LastEntriesList from '../components/LastEntriesList'
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -9,9 +9,7 @@ export default class HomeScreen extends React.Component {
     render() {
       return(
         <View style={styles.container}>
-          <Text>
-            Screen with some last events with all plotters
-          </Text>
+          <LastEntriesList/>
         </View>
       );
     }

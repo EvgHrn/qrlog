@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import EntriesListItem from './EntriesListItem';
 
-export class lastEntriesList extends Component {
+export class LastEntriesList extends Component {
 
     _keyExtractor = (item, index) => item.id;
 
     _renderItem = ({item}) => (
-        <MyListItem
+        <EntriesListItem
             id={item.id}
             onPressItem={this._onPressItem}
             selected={!!this.state.selected.get(item.id)}
