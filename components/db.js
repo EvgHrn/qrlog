@@ -54,3 +54,23 @@ export const addEntryToDb = (equipTitle, equipId, dateTime, entry) => {
         () => console.log('New entry created')
     );
 }
+
+export const getLastEntries = (count) => {
+    let resultArr = [];
+    db.transaction(tx => {
+        tx.executeSql(
+            `select * from entries order by id desc limit ${count};`,
+            [],
+            (_, { rows: { _array } }) => {
+                resultArr = _array;
+            }
+        );
+    },
+    e => {
+        alert(e);
+        console.error(e);
+    },
+    null
+    );
+    return resultArr;
+}
