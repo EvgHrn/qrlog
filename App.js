@@ -1,13 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator  } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
-import { SQLite } from 'expo';
 import ScannerScreen from './screens/ScannerScreen';
 import DetailedHistoryScreen from './screens/DetailedHistoryScreen';
 import HomeScreen from './screens/HomeScreen';
 import AddEntryScreen from './screens/AddEntryScreen';
-
-const db = SQLite.openDatabase('db.db');
+import * as db from '../components/db.js';
 
 const RootStack = createBottomTabNavigator(
   {
@@ -38,39 +36,10 @@ const RootStack = createBottomTabNavigator(
 );
 
 export default class App extends React.Component {
-
-  componentDidMount() {
-    db.transaction(tx => {
-      tx.executeSql(
-
-      /*
-
-      id
-      equipTitle
-      equipId
-      dateTime
-      entry
-
-      */
-
-      'create table if not exists entries (id integer primary key not null, equipTitle text, equipId text, dateTime text, entry text);'
-      );
-    });
+  UNSAFE_componentWillMount(){
+    db.createTableIfNotExist();
   }
-
-  addEntry(equipTitle, equipId, dateTime, entry) {
-
-    db.transaction(tx => {
-            tx.executeSql('insert into entries (equipTitle, equipId, dateTime, entry) values (?, ?, ?, ?)', [equipTitle, equipId, dateTime, entry]);
-            tx.executeSql('select * from entries', [], (_, { rows }) =>
-            console.log(JSON.stringify(rows)));
-        },
-        null,
-        this.update
-    );
-  }
-
   render() {
-    return <RootStack addEntry={this.addEntry}/>;
+    return <RootStack/>;
   }
 }

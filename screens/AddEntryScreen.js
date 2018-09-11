@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, KeyboardAvoidingView, View, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, KeyboardAvoidingView, Keyboard, TouchableOpacity, Button } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-
+import * as db from '../components/db.js';
 
 class AddEntryScreen extends React.Component {
 
@@ -23,7 +23,7 @@ class AddEntryScreen extends React.Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date);
+    //console.log('A date has been picked: ', date);
     this.setState({
       datetime:  new Date(date),
     });
@@ -35,19 +35,28 @@ class AddEntryScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props);
+    //console.log(this.props);
     
     return(
       <KeyboardAvoidingView 
           style={styles.container}
           behavior="padding"
           enabled>
+
         <FormLabel>Name</FormLabel>
-        <FormInput/>
+        <FormInput
+          ref={input => this.nameInput = input}
+          onChangeText={(equipTitle) => this.setState({equipTitle})}
+        />
         {/* <FormValidationMessage>Error message</FormValidationMessage> */}
+
         <FormLabel>Serial No</FormLabel>
-        <FormInput/>
+        <FormInput
+          ref={input => this.idInput = input}
+          onChangeText={(equipId) => this.setState({equipId})}
+        />
         {/* <FormValidationMessage>Error message</FormValidationMessage> */}
+
         <FormLabel>Date</FormLabel>
         <TouchableOpacity onPress={this._showDateTimePicker}>
           <Text>{this.state.datetime.toLocaleString("ru", {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})}</Text>
@@ -60,13 +69,28 @@ class AddEntryScreen extends React.Component {
         />
         {/* <FormInput/> */}
         {/* <FormValidationMessage>Error message</FormValidationMessage> */}
+
         <FormLabel>Entry</FormLabel>
-        <FormInput/>
+        <FormInput
+          ref={input => this.entryInput = input}
+          onChangeText={(entry) => this.setState({entry})}
+        />
         {/* <FormValidationMessage>Error message</FormValidationMessage> */}
+
         <Button
-          style={{ marginVertical: 20 }}
+          style={{ marginVertical: 40 }}
           title='Save'
-          />
+          onPress={() => {
+            Keyboard.dismiss();
+            this.nameInput.clearText();
+            this.idInput.clearText();
+            this.entryInput.clearText();
+            console.log('Save button pressed');
+            db.addEntryToDb(this.state.equipTitle, this.state.equipId, this.state.datetime.toISOString(), this.state.entry);
+
+          } 
+          }
+        />
       </KeyboardAvoidingView>
     );
   }
@@ -81,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(AddEntryScreen); 
+export default AddEntryScreen; 
