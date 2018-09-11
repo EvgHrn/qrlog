@@ -87,7 +87,7 @@ class AddEntryScreen extends React.Component {
             this.entryInput.clearText();
             console.log('Save button pressed');
             db.addEntryToDb(this.state.equipTitle, this.state.equipId, this.state.datetime.toISOString(), this.state.entry);
-
+            this.props.navigation.navigate('Home', {})
           } 
           }
         />
