@@ -2,7 +2,7 @@ import { SQLite } from 'expo';
 
 const db = SQLite.openDatabase('db.db');
 
-export const createTableIfNotExist = () => {
+export const createTablesIfNotExist = () => {
     db.transaction(tx => {
         tx.executeSql(
 
@@ -15,7 +15,13 @@ export const createTableIfNotExist = () => {
             entry
 
             */
-
+           'create table if not exists equipment (id integer primary key not null, equipTitle text, equipId text unique);'    
+            
+        );
+    });
+    db.transaction(tx => {
+        tx.executeSql(
+            
             'create table if not exists entries (id integer primary key not null, equipTitle text, equipId text, dateTime text, entry text);'
         );
     });

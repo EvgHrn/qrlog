@@ -5,7 +5,7 @@ import ScannerScreen from './screens/ScannerScreen';
 import DetailedHistoryScreen from './screens/DetailedHistoryScreen';
 import HomeScreen from './screens/HomeScreen';
 import AddEntryScreen from './screens/AddEntryScreen';
-import * as db from '../components/db.js';
+import * as db from './components/db.js';
 
 const RootStack = createBottomTabNavigator(
   {
@@ -37,7 +37,7 @@ const RootStack = createBottomTabNavigator(
 
 export default class App extends React.Component {
   UNSAFE_componentWillMount(){
-    db.createTableIfNotExist();
+    db.createTablesIfNotExist();
   }
   render() {
     return <RootStack/>;
