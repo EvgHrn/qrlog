@@ -37,9 +37,45 @@ const RootStack = createBottomTabNavigator(
 );
 
 export default class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      entries: []
+    };
+  };
+
+  changes = db.changes({
+    since: 'now',
+    live: true,
+    include_docs: true
+  }).on('change', function(change) {
+    // handle change
+    db.allDocs({
+      include_docs: true,
+      attachments: true
+    }).then(function (result) {
+      // handle result
+      const entries = result.rows.map((item) => item.doc);
+      console.log('Db changed so we are fetched all docs and set it on App state:');
+      console.log(entries);
+      this.setState(() => {
+        return {
+          entries: entries
+        };
+      });
+    }).catch((err) => {
+      console.error(err);
+    });
+  }).on('complete', function(info) {
+    // changes() was canceled
+  }).on('error', function (err) {
+    console.log(err);
+  });
+
   render() {
     return (
-      <EntriesContext.Provider value={{ db }}><
+      <EntriesContext.Provider value={this.state.entries}>
         <RootStack/>
       </EntriesContext.Provider>
     );

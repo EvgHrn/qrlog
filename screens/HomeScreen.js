@@ -5,13 +5,6 @@ import EntriesContext from '../components/EntriesContext';
 
 export default class HomeScreen extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      entries: null
-    };
-  }
-
   static navigationOptions = {
     title: 'HOME'
   }
@@ -21,9 +14,9 @@ export default class HomeScreen extends React.Component {
     return(
       <EntriesContext.Consumer>
         {
-          (value) =>
+          (entries) =>
             <View style={styles.container}>
-              <LastEntriesList entries={this.state.entries}/>
+              <LastEntriesList entries={entries}/>
             </View>
         }
       </EntriesContext.Consumer>

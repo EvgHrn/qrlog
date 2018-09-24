@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, Text } from 'react-native';
-import {EntriesListItem} from './EntriesListItem';
+import { EntriesListItem } from './EntriesListItem';
 
 
 export class LastEntriesList extends Component {
@@ -10,11 +10,11 @@ export class LastEntriesList extends Component {
             <FlatList
                 data={this.props.entries}
                 showsVerticalScrollIndicator={false}
-                renderItem={({item}) =>
+                renderItem={({ item }) =>
                     <EntriesListItem name={item.equipTitle}/>
                 }
-                keyExtractor={entry => entry.equipId}
+                keyExtractor={(entry) => entry.equipId}
             />
-        )
+        );
     }
 }
