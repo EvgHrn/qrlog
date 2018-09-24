@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, KeyboardAvoidingView, Keyboard, TouchableOpacity, Button } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import * as db from '../components/db.js';
+import EntriesContext from '../components/EntriesContext';
 
 class AddEntryScreen extends React.Component {
 

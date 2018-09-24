@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "expo": "^29.0.0",
+    "pouchdb-adapter-react-native-sqlite": "^1.0.3",
+    "pouchdb-react-native": "^6.4.1",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-29.0.0.tar.gz",
     "react-native-elements": "^0.19.1",
     "react-native-modal-datetime-picker": "^6.0.0",
+    "react-native-sqlite-storage": "^3.3.6",
     "react-navigation": "^2.13.0"
   }
 }

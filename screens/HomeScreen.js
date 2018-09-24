@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import {LastEntriesList} from '../components/LastEntriesList';
-import * as db from '../components/db.js';
+import { LastEntriesList } from '../components/LastEntriesList';
+import EntriesContext from '../components/EntriesContext';
 
 export default class HomeScreen extends React.Component {
 
@@ -17,13 +17,16 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-
-    console.log(this.state);
     
     return(
-      <View style={styles.container}>
-        <LastEntriesList entries={this.state.entries}/>
-      </View>
+      <EntriesContext.Consumer>
+        {
+          (value) =>
+            <View style={styles.container}>
+              <LastEntriesList entries={this.state.entries}/>
+            </View>
+        }
+      </EntriesContext.Consumer>
     );
   }
 }
