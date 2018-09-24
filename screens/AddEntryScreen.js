@@ -9,23 +9,22 @@ class AddEntryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      datetime: new Date(),
+      dateTimeOfAddingEntry: new Date().toISOString(),
       isDateTimePickerVisible: false,
       equipTitle: '', 
       equipId: '', 
-      dateTime: '',
+      dateTimeOfEntry: '',
       entry: ''
     };
-  }
+  };
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = (date) => {
-    //console.log('A date has been picked: ', date);
     this.setState({
-      datetime:  new Date(date),
+      dateTimeOfEntry:  new Date(date).toISOString(),
     });
     this._hideDateTimePicker();
   };
@@ -35,65 +34,66 @@ class AddEntryScreen extends React.Component {
   }
 
   render() {
-    //console.log(this.props);
-    
     return(
-      <KeyboardAvoidingView 
-          style={styles.container}
-          behavior="padding"
-          enabled>
-
-        <FormLabel>Name</FormLabel>
-        <FormInput
-          ref={input => this.nameInput = input}
-          onChangeText={(equipTitle) => this.setState({equipTitle})}
-        />
-        {/* <FormValidationMessage>Error message</FormValidationMessage> */}
-
-        <FormLabel>Serial No</FormLabel>
-        <FormInput
-          ref={input => this.idInput = input}
-          onChangeText={(equipId) => this.setState({equipId})}
-        />
-        {/* <FormValidationMessage>Error message</FormValidationMessage> */}
-
-        <FormLabel>Date</FormLabel>
-        <TouchableOpacity onPress={this._showDateTimePicker}>
-          <Text>{this.state.datetime.toLocaleString("ru", {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})}</Text>
-        </TouchableOpacity>
-        <DateTimePicker
-          mode='datetime'
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this._handleDatePicked}
-          onCancel={this._hideDateTimePicker}
-        />
-        {/* <FormInput/> */}
-        {/* <FormValidationMessage>Error message</FormValidationMessage> */}
-
-        <FormLabel>Entry</FormLabel>
-        <FormInput
-          ref={input => this.entryInput = input}
-          onChangeText={(entry) => this.setState({entry})}
-        />
-        {/* <FormValidationMessage>Error message</FormValidationMessage> */}
-
-        <Button
-          style={{ marginVertical: 40 }}
-          title='Save'
-          onPress={() => {
-            Keyboard.dismiss();
-            this.nameInput.clearText();
-            this.idInput.clearText();
-            this.entryInput.clearText();
-            console.log('Save button pressed');
-            db.addEntryToDb(this.state.equipTitle, this.state.equipId, this.state.datetime.toISOString(), this.state.entry);
-            this.props.navigation.navigate('Home')
-          } 
-          }
-        />
-      </KeyboardAvoidingView>
+      <EntriesContext.Consumer>
+        {
+          (value) =>
+            <KeyboardAvoidingView 
+              style={styles.container}
+              behavior="padding"
+              enabled>
+              <FormLabel>Name</FormLabel>
+              <FormInput
+                ref={input => this.nameInput = input}
+                onChangeText={(equipTitle) => this.setState({equipTitle})}
+              />
+              <FormLabel>Serial No</FormLabel>
+              <FormInput
+                ref={input => this.idInput = input}
+                onChangeText={(equipId) => this.setState({equipId})}
+              />
+              <FormLabel>Date</FormLabel>
+              <TouchableOpacity onPress={this._showDateTimePicker}>
+                <Text>{this.state.datetime.toLocaleString("ru", {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})}</Text>
+              </TouchableOpacity>
+              <DateTimePicker
+                mode='datetime'
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this._handleDatePicked}
+                onCancel={this._hideDateTimePicker}
+              />
+              <FormLabel>Entry</FormLabel>
+              <FormInput
+                ref={input => this.entryInput = input}
+                onChangeText={(entry) => this.setState({entry})}
+              />
+              <Button
+                style={{ marginVertical: 40 }}
+                title='Save'
+                onPress={() => {
+                  Keyboard.dismiss();
+                  this.nameInput.clearText();
+                  this.idInput.clearText();
+                  this.entryInput.clearText();
+                  console.log('Save button pressed');
+                  value.db.post({
+                    equipTitle: this.state.equipTitle,
+                    equipId: this.state.equipId,
+                    dateTimeOfAddingEntry: this.state.dateTimeOfAddingEntry,
+                    dateTimeOfEntry: this.state.dateTimeOfEntry,
+                    entry: this.state.entry
+                  }).then((result) => {
+                    console.log('New entry posted to db. Result:');
+                    console.log(result);
+                  }).catch((err) => console.error(err));
+                  this.props.navigation.navigate('Home');
+                }}
+              />
+            </KeyboardAvoidingView>
+        }
+      </EntriesContext.Consumer>
     );
-  }
+    }
 }
 
 const styles = StyleSheet.create({
