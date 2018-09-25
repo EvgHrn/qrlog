@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 export class EntriesListItem extends React.Component {
 
@@ -8,11 +8,12 @@ export class EntriesListItem extends React.Component {
     // };
   
     render() {
-    //   const textColor = this.props.selected ? "red" : "black";
-    console.log(this.props.name);
-    
       return (
-        <Text>{this.props.name}</Text>
+        <View style={styles.container}>
+          <Text>{this.props.entry.entry}</Text>
+          <Text style={styles.light}>{this.props.entry.equipTitle}</Text>
+          <Text style={styles.light}>{this.props.entry.dateTimeOfEntry}</Text>
+        </View>
         // <TouchableOpacity onPress={this._onPress}>
         //   <View style={{
         //     flex: 1,
@@ -28,3 +29,15 @@ export class EntriesListItem extends React.Component {
       );
     }
   }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    light: {
+      color: 'gray'
+    }
+  });

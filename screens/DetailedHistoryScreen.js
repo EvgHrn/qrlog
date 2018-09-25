@@ -4,12 +4,12 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 class DetailedList extends Component {
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Text>
           Detailed list
         </Text>
       </View>
-    )
+    );
   }
 }
 
@@ -18,19 +18,23 @@ export default class DetailedHistoryScreen extends React.Component {
       title: 'DETAILED'
     }
     render() {
-      return(
+
+      console.log(this.props.navigation.getParam('dataString'));
+
+      const dataObj = JSON.parse('{ ' + this.props.navigation.getParam('dataString') + ' }');
+      
+      console.log('detailedhistoryscreen get data from scanner: ');
+      console.log(dataObj);
+      return (
         <View style={styles.container}>
           <Text>
-            {this.props.navigation.getParam('code')}
+            {/* {this.props.navigation.getParam('code')} */}
           </Text>
           <DetailedList/>
           <Button
-            title="ADD"
-            onPress={() => this.props.navigation.navigate('AddEntry')}
-            />
-          <Button
-            title='HOME'
-            onPress={() => this.props.navigation.navigate('Home')}/>
+            title='ADD'
+            onPress={() => this.props.navigation.navigate('AddEntry', { dataObj: dataObj })}
+          />
         </View>
       );
     }

@@ -99,11 +99,11 @@ module.exports = {
         ],
         "lines-around-comment": "error",
         "lines-around-directive": "error",
-        "lines-between-class-members": [
-            "error",
-            "never"
-        ],
-        "max-classes-per-file": "error",
+        // "lines-between-class-members": [
+        //     "error",
+        //     "never"
+        // ],
+        // "max-classes-per-file": "error",
         "max-depth": "error",
         "max-len": "error",
         "max-lines": "error",
@@ -200,7 +200,7 @@ module.exports = {
         "no-unmodified-loop-condition": "error",
         "no-unneeded-ternary": "error",
         "no-unused-expressions": "error",
-        "no-use-before-define": "error",
+        // "no-use-before-define": "error",
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
         "no-useless-concat": "error",

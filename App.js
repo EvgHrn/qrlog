@@ -43,7 +43,7 @@ export default class App extends React.Component {
     this.state = {
       entries: []
     };
-  };
+  }
 
   setAppState(stateObj) {
     this.setState(() => {
@@ -55,23 +55,29 @@ export default class App extends React.Component {
     since: 'now',
     live: true,
     include_docs: true
-  }).on('change', (change) => {
-    // handle change
+  }).
+  on('change', () => {
+    this.allDocsToState();
+  }).
+  on('error', (err) => {
+    console.error(err);
+  });
+
+  allDocsToState() {
     db.allDocs({
       include_docs: true,
       attachments: true
     }).then((result) => {
-      // handle result
       const entries = result.rows.map((item) => item.doc);
-      console.log('Db changed so we are fetched all docs and set it on App state:');
-      console.log(entries);
       this.setAppState({ entries: entries });
     }).catch((err) => {
       console.error(err);
     });
-  }).on('error', function (err) {
-    console.log(err);
-  });
+  }
+
+  componentDidMount() {
+    this.allDocsToState();
+  }
 
   render() {
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, KeyboardAvoidingView, Keyboard, TouchableOpacity, Button } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { FormLabel, FormInput } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import db from '../components/db.js';
 
@@ -9,14 +9,13 @@ class AddEntryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateTimeOfAddingEntry: new Date().toISOString(),
       isDateTimePickerVisible: false,
-      equipTitle: '', 
-      equipId: '', 
+      equipTitle: this.props.navigation.getParam('dataObj').title,
+      equipId: this.props.navigation.getParam('dataObj').id,
       dateTimeOfEntry: '',
       entry: ''
     };
-  };
+  }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
@@ -24,7 +23,7 @@ class AddEntryScreen extends React.Component {
 
   _handleDatePicked = (date) => {
     this.setState({
-      dateTimeOfEntry:  new Date(date).toISOString(),
+      dateTimeOfEntry: new Date(date).toISOString(),
     });
     this._hideDateTimePicker();
   };
@@ -41,11 +40,13 @@ class AddEntryScreen extends React.Component {
         enabled>
         <FormLabel>Name</FormLabel>
         <FormInput
+          value={this.state.equipTitle}
           ref={input => this.nameInput = input}
           onChangeText={(equipTitle) => this.setState({equipTitle})}
         />
         <FormLabel>Serial No</FormLabel>
         <FormInput
+          value={this.state.equipId}
           ref={input => this.idInput = input}
           onChangeText={(equipId) => this.setState({equipId})}
         />
@@ -76,7 +77,7 @@ class AddEntryScreen extends React.Component {
             db.post({
               equipTitle: this.state.equipTitle,
               equipId: this.state.equipId,
-              dateTimeOfAddingEntry: this.state.dateTimeOfAddingEntry,
+              dateTimeOfAddingEntry: new Date().toISOString(),
               dateTimeOfEntry: this.state.dateTimeOfEntry,
               entry: this.state.entry
             }).then((result) => {
@@ -100,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddEntryScreen; 
+export default AddEntryScreen;

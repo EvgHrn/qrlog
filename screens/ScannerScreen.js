@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import { Camera, Permissions } from 'expo';
-import * as db from '../components/db.js';
+import db from '../components/db.js';
 
 export default class ScannerScreen extends React.Component {
 
@@ -15,11 +15,10 @@ export default class ScannerScreen extends React.Component {
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasCameraPermission: status === 'granted'});
+    this.setState({ hasCameraPermission: status === 'granted' });
   }
 
   render() {
-
 
     const { hasCameraPermission } = this.state;
 
@@ -40,10 +39,10 @@ export default class ScannerScreen extends React.Component {
   }
 
   _handleBarCodeRead = ({ type, data }) => {
-    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-
+    console.log('Data from camera:');
+    console.log(data);
     this.props.navigation.navigate('Detailed', {
-      code: data,
+      dataString: data,
     });
   }
 
@@ -59,5 +58,4 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1
   },
-}
-);
+});

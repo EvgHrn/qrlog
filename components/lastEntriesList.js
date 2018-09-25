@@ -11,9 +11,9 @@ export class LastEntriesList extends Component {
                 data={this.props.entries}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) =>
-                    <EntriesListItem name={item.equipTitle}/>
+                    <EntriesListItem entry={item}/>
                 }
-                keyExtractor={(entry) => entry.equipId}
+                keyExtractor={(entry) => entry.dateTimeOfAddingEntry}
             />
         );
     }
