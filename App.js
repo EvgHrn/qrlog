@@ -45,30 +45,30 @@ export default class App extends React.Component {
     };
   };
 
+  setAppState(stateObj) {
+    this.setState(() => {
+      return stateObj;
+    });
+  }
+
   changes = db.changes({
     since: 'now',
     live: true,
     include_docs: true
-  }).on('change', function(change) {
+  }).on('change', (change) => {
     // handle change
     db.allDocs({
       include_docs: true,
       attachments: true
-    }).then(function (result) {
+    }).then((result) => {
       // handle result
       const entries = result.rows.map((item) => item.doc);
       console.log('Db changed so we are fetched all docs and set it on App state:');
       console.log(entries);
-      this.setState(() => {
-        return {
-          entries: entries
-        };
-      });
+      this.setAppState({ entries: entries });
     }).catch((err) => {
       console.error(err);
     });
-  }).on('complete', function(info) {
-    // changes() was canceled
   }).on('error', function (err) {
     console.log(err);
   });
