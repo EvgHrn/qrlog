@@ -17,17 +17,20 @@ export default class HomeScreen extends React.Component {
         {
           (entries) =>
             <View style={styles.container}>
+
               <LastEntriesList entries={entries}/>
-              <Button
+
+              {/* <Button
                 title='Destroy db'
                 onPress={() => {
                   db.destroy().then(function (response) {
                     console.log('Db desroy');
-                  }).catch(function (err) {
+                  }).catch((err) => {
                     console.error(err);
                   });
                 }}
-              />
+              /> */}
+
             </View>
         }
       </EntriesContext.Consumer>
@@ -38,8 +41,8 @@ export default class HomeScreen extends React.Component {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+      backgroundColor: 'lightgray',
+      // alignItems: 'center',
+      // justifyContent: 'center',
     },
   });

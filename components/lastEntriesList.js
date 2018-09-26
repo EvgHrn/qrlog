@@ -8,11 +8,16 @@ export class LastEntriesList extends Component {
 
     render() {
         return (
-            <FlatList
-                style={{
-                    marginTop: Constants.statusBarHeight,
-                    flex: 1
-                }}
+            <FlatList contentContainerStyle={{
+                marginTop: Constants.statusBarHeight
+                // flex: 1,
+                // alignItems: 'flex-start',
+                // justifyContent: 'flex-start'
+            }}
+                // style={{
+                //     marginTop: Constants.statusBarHeight,
+                //     flex: 1
+                // }}
                 data={this.props.entries}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (

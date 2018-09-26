@@ -3,41 +3,58 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 export class EntriesListItem extends React.Component {
 
-    onPress = () => {
-      // This.props.onPressItem(this.props.id);
-    };
+  onPress = () => {
+    // This.props.onPressItem(this.props.id);
+  };
 
-    stringToHumanDateTime = (str) => {
-      return new Date(str).toLocaleString('ru', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric'
-      });
-    };
+  stringToHumanDateTime = (str) => {
+    return new Date(str).toLocaleString('ru', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+  };
 
-    render() {
-      return (
-        <TouchableOpacity onPress={this.onPress}>
-          <View style={styles.container}>
-            <Text>{this.props.entry.entry}</Text>
-            <Text style={styles.light}>{this.props.entry.equipTitle}</Text>
-            <Text style={styles.light}>{this.stringToHumanDateTime(this.props.entry.dateTimeOfEntry)}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
+  render() {
+    return (
+      <View style={styles.container}>
+
+          <Text style={styles.mainText}>
+            {this.props.entry.entry}
+          </Text>
+
+          <TouchableOpacity onPress={this.onPress}>
+            <Text style={styles.lightText}>
+              {this.props.entry.equipTitle}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={this.onPress}>
+            <Text style={styles.lightText}>
+              {this.stringToHumanDateTime(this.props.entry.dateTimeOfEntry)}
+            </Text>
+          </TouchableOpacity>
+          
+      </View>
+    );
   }
+}
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: 'blue',
-      alignItems: 'flex-start',
-      justifyContent: 'flex-start',
+      // backgroundColor: 'blue',
+      paddingHorizontal: 20,
+      paddingVertical: 5
+      // alignItems: 'flex-start',
+      // justifyContent: 'flex-start',
     },
-    light: {
-      color: 'gray'
+    mainText: {
+      fontSize: 14
+    },
+    lightText: {
+      color: 'gray',
+      fontSize: 12
     }
   });
