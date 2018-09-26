@@ -12,7 +12,7 @@ class AddEntryScreen extends React.Component {
       isDateTimePickerVisible: false,
       equipTitle: this.props.navigation.getParam('dataObj').title,
       equipId: this.props.navigation.getParam('dataObj').id,
-      dateTimeOfEntry: '',
+      dateTimeOfEntry: new Date().toISOString(),
       entry: ''
     };
   }
@@ -52,7 +52,7 @@ class AddEntryScreen extends React.Component {
         />
         <FormLabel>Date</FormLabel>
         <TouchableOpacity onPress={this._showDateTimePicker}>
-          <Text>{this.state.dateTimeOfAddingEntry.toLocaleString("ru", {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})}</Text>
+          <Text>{new Date().toLocaleString("ru", {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})}</Text>
         </TouchableOpacity>
         <DateTimePicker
           mode='datetime'

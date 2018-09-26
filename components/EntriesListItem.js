@@ -3,29 +3,29 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 export class EntriesListItem extends React.Component {
 
-    // _onPress = () => {
-    //   // this.props.onPressItem(this.props.id);
-    // };
-  
+    onPress = () => {
+      // This.props.onPressItem(this.props.id);
+    };
+
+    stringToHumanDateTime = (str) => {
+      return new Date(str).toLocaleString('ru', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+      });
+    };
+
     render() {
       return (
-        <View style={styles.container}>
-          <Text>{this.props.entry.entry}</Text>
-          <Text style={styles.light}>{this.props.entry.equipTitle}</Text>
-          <Text style={styles.light}>{this.props.entry.dateTimeOfEntry}</Text>
-        </View>
-        // <TouchableOpacity onPress={this._onPress}>
-        //   <View style={{
-        //     flex: 1,
-        //     flexDirection: 'row',
-        //     justifyContent: 'center',
-        //     alignItems: 'center'
-        //   }}>
-        //     <Text>
-        //       {this.props.id}
-        //     </Text>
-        //   </View>
-        // </TouchableOpacity>
+        <TouchableOpacity onPress={this.onPress}>
+          <View style={styles.container}>
+            <Text>{this.props.entry.entry}</Text>
+            <Text style={styles.light}>{this.props.entry.equipTitle}</Text>
+            <Text style={styles.light}>{this.stringToHumanDateTime(this.props.entry.dateTimeOfEntry)}</Text>
+          </View>
+        </TouchableOpacity>
       );
     }
   }
@@ -33,9 +33,9 @@ export class EntriesListItem extends React.Component {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+      backgroundColor: 'blue',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
     },
     light: {
       color: 'gray'
