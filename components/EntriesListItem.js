@@ -3,8 +3,11 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 export class EntriesListItem extends React.Component {
 
-  onPress = () => {
-    // This.props.onPressItem(this.props.id);
+  onPress = (data, type) => {
+    this.props.navigation.navigate('Detailed', {
+      dataString: data,
+      type
+    });
   };
 
   stringToHumanDateTime = (str) => {
@@ -25,13 +28,13 @@ export class EntriesListItem extends React.Component {
             {this.props.entry.entry}
           </Text>
 
-          <TouchableOpacity onPress={this.onPress}>
+          <TouchableOpacity onPress={this.onPress(this.props.entry.equipTitle, 'equipTitle')}>
             <Text style={styles.lightText}>
               {this.props.entry.equipTitle}
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={this.onPress}>
+          <TouchableOpacity onPress={this.onPress(this.props.entry.dateTimeOfEntry, 'dateTimeOfEntry')}>
             <Text style={styles.lightText}>
               {this.stringToHumanDateTime(this.props.entry.dateTimeOfEntry)}
             </Text>
@@ -44,11 +47,8 @@ export class EntriesListItem extends React.Component {
 
   const styles = StyleSheet.create({
     container: {
-      // backgroundColor: 'blue',
       paddingHorizontal: 20,
       paddingVertical: 5
-      // alignItems: 'flex-start',
-      // justifyContent: 'flex-start',
     },
     mainText: {
       fontSize: 14
