@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { LastEntriesList } from '../components/LastEntriesList';
 import EntriesContext from '../components/EntriesContext';
-import db from '../components/db.js';
 
 export default class HomeScreen extends React.Component {
 
@@ -10,26 +9,22 @@ export default class HomeScreen extends React.Component {
     title: 'HOME'
   }
 
+  componentDidMount() {
+    console.log('HomeScreen did mount');
+  }
+
+  componentDidUpdate() {
+    console.log('HomeScreen did Update');
+  }
+
   render() {
-    
-    return(
+    return (
       <EntriesContext.Consumer>
         {
           (entries) =>
             <View style={styles.container}>
 
               <LastEntriesList entries={entries}/>
-
-              {/* <Button
-                title='Destroy db'
-                onPress={() => {
-                  db.destroy().then(function (response) {
-                    console.log('Db desroy');
-                  }).catch((err) => {
-                    console.error(err);
-                  });
-                }}
-              /> */}
 
             </View>
         }
@@ -42,7 +37,5 @@ export default class HomeScreen extends React.Component {
     container: {
       flex: 1,
       backgroundColor: 'lightgray',
-      // alignItems: 'center',
-      // justifyContent: 'center',
     },
   });

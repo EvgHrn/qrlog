@@ -75,7 +75,8 @@ export default class App extends React.Component {
     });
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    console.log('App component will mount');
     this.allDocsToState();
   }
 

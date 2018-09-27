@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { Camera, Permissions } from 'expo';
-import db from '../components/db.js';
 
 export default class ScannerScreen extends React.Component {
 
@@ -28,10 +27,10 @@ export default class ScannerScreen extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
           <Camera
+          style={{ flex: 1 }}
             onBarCodeRead={this._handleBarCodeRead}
-            style={StyleSheet.absoluteFill}
           />
         </View>
       );
@@ -39,10 +38,13 @@ export default class ScannerScreen extends React.Component {
   }
 
   _handleBarCodeRead = ({ type, data }) => {
+    // We wait data from camera like this: "title": "blabla", "id": "blabla"
     console.log('Data from camera:');
     console.log(data);
     this.props.navigation.navigate('Detailed', {
       dataString: data,
+      type: 'equipTitleAndequipIdStr',
+      prevScreen: 'scanner'
     });
   }
 
@@ -50,12 +52,6 @@ export default class ScannerScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  camera: {
     flex: 1
-  },
+  }
 });

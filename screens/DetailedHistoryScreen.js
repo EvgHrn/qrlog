@@ -1,86 +1,98 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { LastEntriesList } from '../components/LastEntriesList';
 import db from '../components/db.js';
 
-class DetailedList extends Component {
-
+export default class DetailedHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       detailedEntries: []
     };
-  }
+  };
 
-  dateStringFromISOString = (str) => {
-    return new Date(str).toDateString();
+  static navigationOptions = {
+    title: 'DETAILED'
   }
 
   componentDidUpdate() {
-    console.log('DetailesList was Updated');
-    db.allDocs({
-      include_docs: true,
-      attachments: true
-    }).then((allDocs) => {
-      // Handle result
-      const type = this.props.navigation.getParam('type');
-      const dataString = this.props.navigation.getParam('dataString');
-      if (type === 'equipTitle') {
-        const filteredDocsByEquipTitle = allDocs.rows.filter((row) => row.doc.equipTitle === dataString);
-        this.setState(() => {
-          return {
-            detailedEntries: filteredDocsByEquipTitle
-          };
-        });
-      } else if (type === 'dateTimeOfEntry') {
-        const dateString = this.dateStringFromISOString(dataString);
-        const filteredDocsByDate = allDocs.rows.filter((row) => this.dateStringFromISOString(row.doc.dateTimeOfEntry) === dateString);
-        this.setState(() => {
-          return {
-            detailedEntries: filteredDocsByDate
-          };
-        });
-      }
-    }).catch((err) => {
-      console.error(err);
-    });
+    console.log('DetailedList was Updated');
   }
 
   componentDidMount() {
-    console.log('DetailesList was Mount');
+    console.log('DetailedList was Mount');
+    console.log('We update Detailed list state');
+    this.setNewDetailedList();
   }
 
   componentWillReceiveProps() {
-    console.log('DetailesList will Receive Props');
+    console.log('DetailedList will Receive Props');
+    console.log('We update Detailed list state');
+    this.setNewDetailedList();
   }
 
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <Text>
-          History of
-        </Text>
-        <Text>
-          {this.props.navigation.getParam('dataString')}
-        </Text>
-      </View>
-    );
-  }
-}
-
-export default class DetailedHistoryScreen extends React.Component {
-    static navigationOptions = {
-      title: 'DETAILED'
+    dateStringFromISOString(str) {
+      return new Date(str).toDateString();
     }
+  
+    setNewDetailedList() {
+      db.allDocs({
+        include_docs: true,
+        attachments: true
+      }).then((allDocs) => {
+        
+        const type = this.props.navigation.getParam('type');
+        const entryObj = this.props.navigation.getParam('entryObj');
+
+        // From Detailed screen
+        if (type === 'equipTitleAndId') {
+          const filteredDocsByEquipTitleOrEquipId = allDocs.rows.filter((row) => ((row.doc.equipTitle === entryObj.equipTitle) || (row.doc.equipId === entryObj.equipId)));
+          this.setState(() => {
+            return {
+              detailedEntries: filteredDocsByEquipTitleOrEquipId
+            };
+          });
+        // From Detailed screen
+        } else if (type === 'dateTimeOfEntry') {
+          const dateString = this.dateStringFromISOString(entryObj.dateTimeOfEntry);
+          const filteredDocsByDate = allDocs.rows.filter((row) => this.dateStringFromISOString(row.doc.dateTimeOfEntry) === dateString);
+          this.setState(() => {
+            return {
+              detailedEntries: filteredDocsByDate
+            };
+          });
+        // From Scanner screen
+        } else if (type === 'equipTitleAndequipIdStr') {
+          const dataObj = JSON.parse('{ ' + dataString + ' }');
+          const filteredDocsByEquipTitleOrEquipId = allDocs.rows.filter((row) => ((row.doc.equipTitle === dataObj.title) || (row.doc.equipId === dataObj.id)));
+          this.setState(() => {
+            return {
+              detailedEntries: filteredDocsByEquipTitleOrEquipId
+            };
+          });
+        }
+        console.log('Filtered list of entries:');
+        console.log(this.state.detailedEntries);
+      }).catch((err) => {
+        console.error(err);
+      });
+    }
+
     render() {
+      let dataObj = {};
+      if (this.props.navigation.getParam('prevScreen') === 'scanner') {
+        // dataObj = JSON.parse('{ ' + this.props.navigation.getParam('dataString') + ' }');
+      } else if (this.props.navigation.getParam('prevScreen') === 'home') {
+        // dataObj = JSON.parse('{ ' + this.props.navigation.getParam('dataString') + ' }');
+      }
       return (
         <View style={styles.container}>
-          <Text>
-            {/* {this.props.navigation.getParam('code')} */}
-          </Text>
-          <DetailedList/>
+          <View style={{ flex: 1 }}>
+            <LastEntriesList entries={this.state.detailedEntries.map((row) => row.doc)}/>
+          </View>
           <Button
             title='ADD'
-            onPress={() => this.props.navigation.navigate('AddEntry', { dataObj: dataObj })}
+            // onPress={() => this.props.navigation.navigate('AddEntry', { dataObj: dataObj })}
           />
         </View>
       );

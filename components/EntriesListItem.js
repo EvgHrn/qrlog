@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-export class EntriesListItem extends React.Component {
+class EntriesListItem extends React.Component {
 
-  onPress = (data, type) => {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  onPress = (entryObj, type) => {
+    console.log('Item on HomeScreen was pressed so we navigate to DetailedScreen');
     this.props.navigation.navigate('Detailed', {
-      dataString: data,
-      type
+      entryObj,
+      type,
+      prevScreen: 'home'
     });
-  };
+  }
 
   stringToHumanDateTime = (str) => {
     return new Date(str).toLocaleString('ru', {
@@ -28,13 +36,16 @@ export class EntriesListItem extends React.Component {
             {this.props.entry.entry}
           </Text>
 
-          <TouchableOpacity onPress={this.onPress(this.props.entry.equipTitle, 'equipTitle')}>
+          <TouchableOpacity onPress={() => this.onPress(this.props.entry, 'equipTitleAndId')}>
             <Text style={styles.lightText}>
               {this.props.entry.equipTitle}
             </Text>
+            <Text style={styles.lightText}>
+              {this.props.entry.equipId}
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={this.onPress(this.props.entry.dateTimeOfEntry, 'dateTimeOfEntry')}>
+          <TouchableOpacity onPress={() => this.onPress(this.props.entry, 'dateTimeOfEntry')}>
             <Text style={styles.lightText}>
               {this.stringToHumanDateTime(this.props.entry.dateTimeOfEntry)}
             </Text>
@@ -58,3 +69,5 @@ export class EntriesListItem extends React.Component {
       fontSize: 12
     }
   });
+
+export default withNavigation(EntriesListItem);
