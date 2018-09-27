@@ -96,11 +96,17 @@ export default class DetailedHistoryScreen extends React.Component {
     }
 
     render() {
-      let dataObj = {};
+      let dataObj = {
+        title: '',
+        id: ''
+      };
       if (this.props.navigation.getParam('prevScreen') === 'scanner') {
-        // dataObj = JSON.parse('{ ' + this.props.navigation.getParam('dataString') + ' }');
-      } else if (this.props.navigation.getParam('prevScreen') === 'home') {
-        // dataObj = JSON.parse('{ ' + this.props.navigation.getParam('dataString') + ' }');
+        dataObj = JSON.parse('{ ' + this.props.navigation.getParam('dataString') + ' }');
+      } else if ((this.props.navigation.getParam('prevScreen') === 'home') && (this.props.navigation.getParam('type') === 'equipTitleAndId')) {
+        dataObj = {
+          title: this.props.navigation.getParam('entryObj').equipTitle,
+          id: this.props.navigation.getParam('entryObj').equipId
+        };
       }
       return (
         <View style={styles.container}>
@@ -109,7 +115,7 @@ export default class DetailedHistoryScreen extends React.Component {
           </View>
           <Button
             title='ADD'
-            // onPress={() => this.props.navigation.navigate('AddEntry', { dataObj: dataObj })}
+            onPress={() => this.props.navigation.navigate('AddEntry', { dataObj })}
           />
         </View>
       );

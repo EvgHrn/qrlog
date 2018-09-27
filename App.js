@@ -7,6 +7,9 @@ import HomeScreen from './screens/HomeScreen';
 import AddEntryScreen from './screens/AddEntryScreen';
 import db from './components/db.js';
 import EntriesContext from './components/EntriesContext';
+import { YellowBox } from 'react-native';
+
+YellowBox.ignoreWarnings(['Remote debugger']);
 
 const RootStack = createBottomTabNavigator(
   {
@@ -22,9 +25,13 @@ const RootStack = createBottomTabNavigator(
         const { routeName } = navigation.state;
         let iconName;
         if (routeName === 'Home') {
-          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+          iconName = `ios-home${focused ? '' : '-outline'}`;
         } else if (routeName === 'Detailed') {
-          iconName = `ios-options${focused ? '' : '-outline'}`;
+          iconName = `ios-list${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Scanner') {
+          iconName = `ios-qr-scanner${focused ? '' : '-outline'}`;
+        } else if (routeName === 'AddEntry') {
+          iconName = `ios-add${focused ? '' : '-outline'}`;
         }
         return <Ionicons name={iconName} size={25} color={tintColor} />;
       },
@@ -68,7 +75,15 @@ export default class App extends React.Component {
       include_docs: true,
       attachments: true
     }).then((result) => {
-      const entries = result.rows.map((item) => item.doc);
+      const entries = result.rows.map((item) => item.doc).sort((entryObj1, entryObj2) => {
+        const date1 = new Date(entryObj1.dateTimeOfEntry);
+        const date2 = new Date(entryObj2.dateTimeOfEntry);
+        if (date1 > date2) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
       this.setAppState({ entries: entries });
     }).catch((err) => {
       console.error(err);
