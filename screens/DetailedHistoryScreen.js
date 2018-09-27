@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { LastEntriesList } from '../components/LastEntriesList';
 import db from '../components/db.js';
 
@@ -43,6 +43,7 @@ export default class DetailedHistoryScreen extends React.Component {
         
         const type = this.props.navigation.getParam('type');
         const entryObj = this.props.navigation.getParam('entryObj');
+        const dataString = this.props.navigation.getParam('dataString');
 
         // From Detailed screen
         if (type === 'equipTitleAndId') {
@@ -63,7 +64,23 @@ export default class DetailedHistoryScreen extends React.Component {
           });
         // From Scanner screen
         } else if (type === 'equipTitleAndequipIdStr') {
-          const dataObj = JSON.parse('{ ' + dataString + ' }');
+          let dataObj;
+          try {
+            dataObj = JSON.parse('{ ' + dataString + ' }');
+          } catch (err) {
+            console.log('Unkown equipment');
+            Alert.alert(
+              'Error',
+              'Unknown qr',
+              [
+                {
+                  text: 'Try again',
+                  onPress: () => this.props.navigation.navigate('SCANNER')
+                }
+              ],
+              { cancelable: false }
+            );
+          }
           const filteredDocsByEquipTitleOrEquipId = allDocs.rows.filter((row) => ((row.doc.equipTitle === dataObj.title) || (row.doc.equipId === dataObj.id)));
           this.setState(() => {
             return {
@@ -103,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
 });
