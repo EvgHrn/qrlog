@@ -28,6 +28,10 @@ export default class ScannerScreen extends React.Component {
     } else {
       return (
         <View style={styles.container}>
+        <NavigationEvents
+          onWillFocus={() => this.forceUpdate(() => console.log('Force update scannerscreen');
+          )}
+        />
           <Camera
           style={{ flex: 1 }}
             onBarCodeRead={this._handleBarCodeRead}

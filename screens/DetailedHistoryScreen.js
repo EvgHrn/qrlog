@@ -45,15 +45,15 @@ export default class DetailedHistoryScreen extends React.Component {
         const entryObj = this.props.navigation.getParam('entryObj');
         const dataString = this.props.navigation.getParam('dataString');
 
-        // From Detailed screen
+        // From Detailed or Home screen
         if (type === 'equipTitleAndId') {
-          const filteredDocsByEquipTitleOrEquipId = allDocs.rows.filter((row) => ((row.doc.equipTitle === entryObj.equipTitle) || (row.doc.equipId === entryObj.equipId)));
+          const filteredDocsByEquipTitleOrEquipId = allDocs.rows.filter((row) => ((row.doc.equipTitle === entryObj.equipTitle) && (row.doc.equipId === entryObj.equipId)));
           this.setState(() => {
             return {
               detailedEntries: filteredDocsByEquipTitleOrEquipId
             };
           });
-        // From Detailed screen
+        // From Detailed or Home screen
         } else if (type === 'dateTimeOfEntry') {
           const dateString = this.dateStringFromISOString(entryObj.dateTimeOfEntry);
           const filteredDocsByDate = allDocs.rows.filter((row) => this.dateStringFromISOString(row.doc.dateTimeOfEntry) === dateString);
@@ -71,7 +71,7 @@ export default class DetailedHistoryScreen extends React.Component {
             console.log('Unkown equipment');
             Alert.alert(
               'Error',
-              'Unknown qr',
+              'Unknown code',
               [
                 {
                   text: 'Try again',
@@ -81,7 +81,7 @@ export default class DetailedHistoryScreen extends React.Component {
               { cancelable: false }
             );
           }
-          const filteredDocsByEquipTitleOrEquipId = allDocs.rows.filter((row) => ((row.doc.equipTitle === dataObj.title) || (row.doc.equipId === dataObj.id)));
+          const filteredDocsByEquipTitleOrEquipId = allDocs.rows.filter((row) => ((row.doc.equipTitle === dataObj.title) && (row.doc.equipId === dataObj.id)));
           this.setState(() => {
             return {
               detailedEntries: filteredDocsByEquipTitleOrEquipId

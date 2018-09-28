@@ -8,12 +8,10 @@ class AddEntryScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    const equipTitle = this.props.navigation.getParam('dataObj') ? this.props.navigation.getParam('dataObj').title : '';
-    const equipId = this.props.navigation.getParam('dataObj') ? this.props.navigation.getParam('dataObj').id : '';
     this.state = {
       isDateTimePickerVisible: false,
-      equipTitle,
-      equipId,
+      equipTitle: this.props.navigation.getParam('dataObj') ? this.props.navigation.getParam('dataObj').title : '',
+      equipId: this.props.navigation.getParam('dataObj') ? this.props.navigation.getParam('dataObj').id : '',
       dateTimeOfEntry: new Date().toISOString(),
       entry: ''
     };
