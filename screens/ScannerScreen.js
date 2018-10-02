@@ -25,20 +25,19 @@ export default class ScannerScreen extends React.Component {
       return <Text>Requesting for camera permission</Text>;
     } else if (hasCameraPermission === false) {
       return <Text>No access to camera</Text>;
-    } else {
-      return (
-        <View style={styles.container}>
-        <NavigationEvents
-          onWillFocus={() => this.forceUpdate(() => console.log('Force update scannerscreen');
-          )}
-        />
-          <Camera
-          style={{ flex: 1 }}
-            onBarCodeRead={this._handleBarCodeRead}
-          />
-        </View>
-      );
     }
+    return (
+      <View style={styles.container}>
+      <NavigationEvents
+        onWillFocus={ () => this.forceUpdate(() => console.log('Force update scannerscreen')) }
+      />
+        <Camera
+        style={{ flex: 1 }}
+          onBarCodeRead={this._handleBarCodeRead}
+        />
+      </View>
+    );
+
   }
 
   _handleBarCodeRead = ({ type, data }) => {
