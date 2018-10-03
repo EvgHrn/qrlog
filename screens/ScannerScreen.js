@@ -25,8 +25,7 @@ export default class ScannerScreen extends React.Component {
     if (hasCameraPermission === null) {
       return <Text style={{
                 flex: 1,
-                backgroundColor: '#fff',
-                alignItems: 'stretch',
+                alignItems: 'center',
                 justifyContent: 'center'
               }}>
                 Requesting for camera permission
@@ -34,8 +33,7 @@ export default class ScannerScreen extends React.Component {
     } else if (hasCameraPermission === false) {
       return <Text style={{
                 flex: 1,
-                backgroundColor: '#fff',
-                alignItems: 'stretch',
+                alignItems: 'center',
                 justifyContent: 'center'
               }}>
               No access to camera
