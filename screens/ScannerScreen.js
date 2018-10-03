@@ -18,19 +18,29 @@ export default class ScannerScreen extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
-  // componentDidUpdate() {
-  //   console.log('Did update scannerscreen');
-  // }
-
   render() {
 
     const { hasCameraPermission } = this.state;
 
     if (hasCameraPermission === null) {
-      return <Text>Requesting for camera permission</Text>;
+      return <Text style={{
+                flex: 1,
+                backgroundColor: '#fff',
+                alignItems: 'stretch',
+                justifyContent: 'center'
+              }}>
+                Requesting for camera permission
+              </Text>;
     } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
-    }
+      return <Text style={{
+                flex: 1,
+                backgroundColor: '#fff',
+                alignItems: 'stretch',
+                justifyContent: 'center'
+              }}>
+              No access to camera
+            </Text>;
+      }
     return (
       <View style={styles.container}>
       <BarCodeScanner
