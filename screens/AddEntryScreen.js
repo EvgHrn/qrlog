@@ -41,6 +41,7 @@ class AddEntryScreen extends React.Component {
         equipId: this.props.navigation.getParam('dataObj') ? this.props.navigation.getParam('dataObj').id : '',
       };
     });
+    console.log('New state of addentryscreen:', this.state);
   }
 
   render() {
@@ -56,7 +57,10 @@ class AddEntryScreen extends React.Component {
         <FormInput
           value={this.state.equipTitle}
           ref={input => this.nameInput = input}
-          onChangeText={(equipTitle) => this.setState({equipTitle})}
+          onChangeText={(equipTitle) => {
+            this.setState({ equipTitle });
+            console.log('Text of Name field changed to ', equipTitle);
+          }}
         />
         <FormLabel>Serial No</FormLabel>
         <FormInput
@@ -84,8 +88,8 @@ class AddEntryScreen extends React.Component {
           title='Save'
           onPress={() => {
             Keyboard.dismiss();
-            this.nameInput.clearText();
-            this.idInput.clearText();
+            // this.nameInput.clearText();
+            // this.idInput.clearText();
             this.entryInput.clearText();
             console.log('Save button pressed');
             db.post({
