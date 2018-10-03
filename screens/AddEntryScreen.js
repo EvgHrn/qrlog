@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, KeyboardAvoidingView, Keyboard, TouchableOpacity, Button } from 'react-native';
 import { FormLabel, FormInput } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { NavigationEvents } from 'react-navigation';
 import db from '../components/db.js';
 
 class AddEntryScreen extends React.Component {
@@ -32,12 +33,25 @@ class AddEntryScreen extends React.Component {
     title: 'ADD ENTRY'
   }
 
+  updateState = () => {
+    console.log('onWillFocus event of add entryscreen');
+    this.setState(() => {
+      return {
+        equipTitle: this.props.navigation.getParam('dataObj') ? this.props.navigation.getParam('dataObj').title : '',
+        equipId: this.props.navigation.getParam('dataObj') ? this.props.navigation.getParam('dataObj').id : '',
+      };
+    });
+  }
+
   render() {
     return(
       <KeyboardAvoidingView 
         style={styles.container}
         behavior="padding"
         enabled>
+        <NavigationEvents
+          onWillFocus={() => this.updateState()}
+        />
         <FormLabel>Name</FormLabel>
         <FormInput
           value={this.state.equipTitle}

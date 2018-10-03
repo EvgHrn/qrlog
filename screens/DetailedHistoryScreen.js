@@ -7,9 +7,10 @@ export default class DetailedHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailedEntries: []
+      detailedEntries: [],
+      dataObj: {}
     };
-  };
+  }
 
   static navigationOptions = {
     title: 'DETAILED'
@@ -23,24 +24,46 @@ export default class DetailedHistoryScreen extends React.Component {
     console.log('DetailedList was Mount');
     console.log('We update Detailed list state');
     this.setNewDetailedList();
+    this.setNewDataObj();
   }
 
   componentWillReceiveProps() {
     console.log('DetailedList will Receive Props');
     console.log('We update Detailed list state');
     this.setNewDetailedList();
+    this.setNewDataObj();
   }
 
     dateStringFromISOString(str) {
       return new Date(str).toDateString();
     }
-  
+
+    setNewDataObj() {
+      let dataObj = {
+        title: '',
+        id: ''
+      };
+      if (this.props.navigation.getParam('prevScreen') === 'scanner') {
+        dataObj = JSON.parse('{ ' + this.props.navigation.getParam('dataString') + ' }');
+      } else if ((this.props.navigation.getParam('prevScreen') === 'home') && (this.props.navigation.getParam('type') === 'equipTitleAndId')) {
+        dataObj = {
+          title: this.props.navigation.getParam('entryObj').equipTitle,
+          id: this.props.navigation.getParam('entryObj').equipId
+        };
+      }
+      this.setState(() => {
+        return {
+          dataObj
+        };
+      });
+    }
+
     setNewDetailedList() {
       db.allDocs({
         include_docs: true,
         attachments: true
       }).then((allDocs) => {
-        
+
         const type = this.props.navigation.getParam('type');
         const entryObj = this.props.navigation.getParam('entryObj');
         const dataString = this.props.navigation.getParam('dataString');
@@ -96,18 +119,9 @@ export default class DetailedHistoryScreen extends React.Component {
     }
 
     render() {
-      let dataObj = {
-        title: '',
-        id: ''
-      };
-      if (this.props.navigation.getParam('prevScreen') === 'scanner') {
-        dataObj = JSON.parse('{ ' + this.props.navigation.getParam('dataString') + ' }');
-      } else if ((this.props.navigation.getParam('prevScreen') === 'home') && (this.props.navigation.getParam('type') === 'equipTitleAndId')) {
-        dataObj = {
-          title: this.props.navigation.getParam('entryObj').equipTitle,
-          id: this.props.navigation.getParam('entryObj').equipId
-        };
-      }
+      console.log('Render detailed list with dataObj:');
+      console.log(this.state.dataObj);
+      const { dataObj } = this.state;
       return (
         <View style={styles.container}>
           <View style={{ flex: 1 }}>

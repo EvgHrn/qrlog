@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
-import { Camera, Permissions } from 'expo';
+import { Camera, Permissions, BarCodeScanner } from 'expo';
+// import { NavigationEvents } from 'react-navigation';
 
 export default class ScannerScreen extends React.Component {
 
@@ -17,6 +18,10 @@ export default class ScannerScreen extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
+  // componentDidUpdate() {
+  //   console.log('Did update scannerscreen');
+  // }
+
   render() {
 
     const { hasCameraPermission } = this.state;
@@ -28,13 +33,10 @@ export default class ScannerScreen extends React.Component {
     }
     return (
       <View style={styles.container}>
-      <NavigationEvents
-        onWillFocus={ () => this.forceUpdate(() => console.log('Force update scannerscreen')) }
-      />
-        <Camera
+      <BarCodeScanner
         style={{ flex: 1 }}
-          onBarCodeRead={this._handleBarCodeRead}
-        />
+        onBarCodeRead={this._handleBarCodeRead}
+      />
       </View>
     );
 
