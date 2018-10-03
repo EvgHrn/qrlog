@@ -55,6 +55,7 @@ class AddEntryScreen extends React.Component {
         />
         <FormLabel>Name</FormLabel>
         <FormInput
+          multiline
           value={this.state.equipTitle}
           ref={input => this.nameInput = input}
           onChangeText={(equipTitle) => {
@@ -64,6 +65,7 @@ class AddEntryScreen extends React.Component {
         />
         <FormLabel>Serial No</FormLabel>
         <FormInput
+          multiline
           value={this.state.equipId}
           ref={input => this.idInput = input}
           onChangeText={(equipId) => this.setState({equipId})}
@@ -80,6 +82,7 @@ class AddEntryScreen extends React.Component {
         />
         <FormLabel>Entry</FormLabel>
         <FormInput
+          multiline
           ref={input => this.entryInput = input}
           onChangeText={(entry) => this.setState({entry})}
         />
