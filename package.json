@@ -19,5 +19,8 @@
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-sqlite-storage": "^3.3.6",
     "react-navigation": "^2.13.0"
+  },
+  "devDependencies": {
+    "react-native-dotenv": "^0.2.0"
   }
 }
