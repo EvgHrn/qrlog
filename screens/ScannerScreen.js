@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { Camera, Permissions, BarCodeScanner } from 'expo';
-// import { NavigationEvents } from 'react-navigation';
 
 export default class ScannerScreen extends React.Component {
 

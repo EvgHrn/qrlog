@@ -5,9 +5,9 @@ import ScannerScreen from './screens/ScannerScreen';
 import DetailedHistoryScreen from './screens/DetailedHistoryScreen';
 import HomeScreen from './screens/HomeScreen';
 import AddEntryScreen from './screens/AddEntryScreen';
-import db from './components/db.js';
+import { localdb, remoteDb } from './components/db.js';
 import EntriesContext from './components/EntriesContext';
-import { YellowBox } from 'react-native';
+import { YellowBox, Alert } from 'react-native';
 
 YellowBox.ignoreWarnings(['Remote debugger']);
 
@@ -58,7 +58,7 @@ export default class App extends React.Component {
     });
   }
 
-  changes = db.changes({
+  localChanges = localdb.changes({
     since: 'now',
     live: true,
     include_docs: true
@@ -71,7 +71,7 @@ export default class App extends React.Component {
   });
 
   allDocsToState() {
-    db.allDocs({
+    localdb.allDocs({
       include_docs: true,
       attachments: true
     }).then((result) => {
@@ -80,9 +80,8 @@ export default class App extends React.Component {
         const date2 = new Date(entryObj2.dateTimeOfEntry);
         if (date1 > date2) {
           return -1;
-        } else {
-          return 1;
         }
+        return 1;
       });
       this.setAppState({ entries: entries });
     }).catch((err) => {
@@ -90,9 +89,35 @@ export default class App extends React.Component {
     });
   }
 
-  componentWillMount() {
-    console.log('App component will mount');
+  componentDidMount() {
+    console.log('App component did mount');
+    console.log('remote db: ', remoteDb);
     this.allDocsToState();
+    const opts = {
+      live: true,
+      retry: true
+    };
+    localdb.sync(remoteDb, opts)
+    .on('change', function (info) {
+      console.log('Sync change', info);
+    }).on('paused', function (err) {
+      // replication paused (e.g. replication up to date, user went offline)
+      console.log('Sync paused', err);
+    }).on('active', function () {
+      // replicate resumed (e.g. new changes replicating, user went back online)
+      console.log('Sync active');
+    }).on('denied', function (err) {
+      // a document failed to replicate (e.g. due to permissions)
+      console.log('Sync denied', err);
+      Alert.alert('Sync error', 'Access to database denied');
+    }).on('complete', function (info) {
+      // handle complete
+      console.log('Sync complete', info);
+    }).on('error', function (err) {
+      // handle error
+      console.log('Sync error', err);
+      Alert.alert('Sync error', 'Sync with database error');
+    });
   }
 
   render() {

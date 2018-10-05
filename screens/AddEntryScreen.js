@@ -3,7 +3,7 @@ import { StyleSheet, Text, KeyboardAvoidingView, Keyboard, TouchableOpacity, But
 import { FormLabel, FormInput } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { NavigationEvents } from 'react-navigation';
-import db from '../components/db.js';
+import { localdb } from '../components/db.js';
 
 class AddEntryScreen extends React.Component {
 
@@ -95,7 +95,7 @@ class AddEntryScreen extends React.Component {
             // this.idInput.clearText();
             this.entryInput.clearText();
             console.log('Save button pressed');
-            db.post({
+            localdb.post({
               equipTitle: this.state.equipTitle,
               equipId: this.state.equipId,
               dateTimeOfAddingEntry: new Date().toISOString(),

@@ -20,9 +20,9 @@ export class LastEntriesList extends Component {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <EntriesListItem entry={item}/>
-                )  
+                )
                 }
-                keyExtractor={(entry) => entry.dateTimeOfAddingEntry}
+                keyExtractor={(entry) => entry._id}
             />
         );
     }

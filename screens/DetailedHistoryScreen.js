@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { LastEntriesList } from '../components/LastEntriesList';
-import db from '../components/db.js';
+import { localdb } from '../components/db.js';
 
 export default class DetailedHistoryScreen extends React.Component {
   constructor(props) {
@@ -59,7 +59,7 @@ export default class DetailedHistoryScreen extends React.Component {
     }
 
     setNewDetailedList() {
-      db.allDocs({
+      localdb.allDocs({
         include_docs: true,
         attachments: true
       }).then((allDocs) => {
